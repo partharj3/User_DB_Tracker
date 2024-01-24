@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jsp.ums.entity.User;
@@ -20,6 +21,9 @@ import com.jsp.ums.util.ResponseStructure;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
+	public PasswordEncoder encoder;
+	
+	@Autowired
 	private UserRepository userRepo;
 	
 	@Autowired
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService{
 		return User.builder()
 				   .username(request.getUsername())
 				   .useremail(request.getUseremail())
-				   .userpassword(request.getUserpassword())
+				   .userpassword(encoder.encode(request.getUserpassword()))
 				   .build();
 	}
 	
